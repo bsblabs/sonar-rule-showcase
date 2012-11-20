@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.bsb.showcase</groupId>
+        <artifactId>sonar-rule-showcase</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <groupId>com.bsb.samples.sonar</groupId>
+    <artifactId>com.bsb.samples.sonar</artifactId>
+    <packaging>pom</packaging>
+    <name>Sonar Rule Showcase :: Samples</name>
+    <description>Parent POM for sample Sonar rules</description>
+
+    <properties>
+        <!-- This is the root package containing our sample model -->
+        <samples.model.location>com/bsb/sample/test/sonar/model/implement/</samples.model.location>
+    </properties>
+
+    <modules>
+        <module>com.bsb.samples.sonar.implements-checker-rule</module>
+        <module>com.bsb.samples.sonar.implements-checker-plugin</module>
+    </modules>
+
+</project>

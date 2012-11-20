@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.bsb.samples.sonar</groupId>
+        <artifactId>com.bsb.samples.sonar</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>com.bsb.samples.sonar.implements-checker-plugin-its</artifactId>
+    <name>Sonar Rule Showcase :: Sonar plugin sample ITs</name>
+    <description>
+        This project setups the infrastructure for analysing the samples with Sonar and CheckStyle
+    </description>
+
+    <properties>
+        <checkstyle.config>src/test/resources/checkstyle.xml</checkstyle.config>
+        <samples.output.dir>${project.build.directory}/samples/src/</samples.output.dir>
+
+        <!-- A default configuration for a local Sonar instance running H2. Make sure this matches your sonar
+             installation if you want to run the integration tests -->
+        <sonar.jdbc.url>jdbc:h2:tcp://localhost:9092/sonar</sonar.jdbc.url>
+        <sonar.jdbc.driverClassName>org.h2.Driver</sonar.jdbc.driverClassName>
+        <sonar.jdbc.username>sonar</sonar.jdbc.username>
+        <sonar.jdbc.password>sonar</sonar.jdbc.password>
+        <sonar.host.url>http://localhost:9000</sonar.host.url>
+    </properties>
+
+    <build>
+        <sourceDirectory>${samples.output.dir}</sourceDirectory>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>unpack</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.bsb.samples.sonar</groupId>
+                                    <artifactId>com.bsb.samples.sonar.implements-checker-rule</artifactId>
+                                    <type>jar</type>
+                                    <classifier>test-sources</classifier>
+                                    <outputDirectory>${samples.output.dir}</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                            <includes>${samples.model.location}/*.java</includes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--Illustrates how the samples can be analyzed with Sonar (the plugin must be deployed)-->
+            <plugin>
+                <groupId>org.codehaus.sonar</groupId>
+                <artifactId>sonar-maven3-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>sonar</goal>
+                        </goals>
+                        <phase>package</phase>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--Illustrates how this CheckStyle can be directly used-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>checkstyle</goal>
+                        </goals>
+                        <phase>package</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <sourceDirectory>${samples.model.location}</sourceDirectory>
+                    <configLocation>${checkstyle.config}</configLocation>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.bsb.samples.sonar</groupId>
+                        <artifactId>com.bsb.samples.sonar.implements-checker-rule</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
