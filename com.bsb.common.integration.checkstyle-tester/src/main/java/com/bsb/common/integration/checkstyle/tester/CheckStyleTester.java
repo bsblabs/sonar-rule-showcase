@@ -6,8 +6,12 @@ import com.puppycrawl.tools.checkstyle.PropertiesExpander;
 import com.puppycrawl.tools.checkstyle.api.AuditEvent;
 import com.puppycrawl.tools.checkstyle.api.AuditListener;
 import com.puppycrawl.tools.checkstyle.api.CheckstyleException;
+import com.puppycrawl.tools.checkstyle.api.Configuration;
+import org.xml.sax.InputSource;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,9 +49,7 @@ public class CheckStyleTester {
 
             checker.setLocaleCountry(locale.getCountry());
             checker.setLocaleLanguage(locale.getLanguage());
-
-            checker.configure(ConfigurationLoader.loadConfiguration(configurationFile.getAbsolutePath(),
-                new PropertiesExpander(System.getProperties())));
+            checker.configure(getConfiguration(configurationFile));
 
             checker.addListener(new AuditListenerAsserter());
             files = getFilesToScan(file);
@@ -142,19 +144,38 @@ public class CheckStyleTester {
      */
     @SuppressWarnings("unchecked")
     private List<File> getFilesToScan(File file) throws IllegalArgumentException {
-        final List<File> files;
+        final List<File> filesToScan;
         if (file.isDirectory()) {
-            files = new ArrayList<File>(listFiles(file, new String[]{"java"}, true));
+            filesToScan = new ArrayList<File>(listFiles(file, new String[]{"java"}, true));
         } else if (file.exists()) {
             if (!file.getName().endsWith(".java")) {
                 throw new IllegalArgumentException("The file [" + file + "] is not a Java source file.");
             }
 
-            files = singletonList(file);
+            filesToScan = singletonList(file);
         } else {
             throw new IllegalArgumentException("The file [" + file + "] does not exist.");
         }
-        return files;
+        return filesToScan;
+    }
+
+    /**
+     * Returns the CheckStyle configuration based on the given
+     * configuration file.
+     *
+     * @param configurationFile the given configuration file
+     * @return the configuration object based on the given configuration file
+     * @throws CheckstyleException if the configuration cannot be loaded
+     */
+    private static Configuration getConfiguration(File configurationFile) throws CheckstyleException {
+        try {
+            return ConfigurationLoader.loadConfiguration(
+                    new InputSource(new FileInputStream(configurationFile)),
+                    new PropertiesExpander(System.getProperties()), false);
+        } catch (FileNotFoundException e) {
+            throw new IllegalArgumentException("Error while loading the configuration file [" +
+                    configurationFile + "]", e);
+        }
     }
 
     /**

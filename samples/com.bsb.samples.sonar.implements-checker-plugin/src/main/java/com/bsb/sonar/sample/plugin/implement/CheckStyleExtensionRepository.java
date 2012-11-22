@@ -25,7 +25,7 @@ public class CheckStyleExtensionRepository extends RuleRepository {
 
     @Override
     public List<Rule> createRules() {
-        final InputStream input = getClass().getResourceAsStream(getFile());
+        final InputStream input = CheckStyleExtensionRepository.class.getResourceAsStream(getFile());
         try {
             return xmlRuleParser.parse(input);
         } finally {

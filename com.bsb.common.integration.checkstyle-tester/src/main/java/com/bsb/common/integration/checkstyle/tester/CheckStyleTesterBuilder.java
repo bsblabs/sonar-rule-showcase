@@ -1,6 +1,7 @@
 package com.bsb.common.integration.checkstyle.tester;
 
 import java.io.File;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Locale;
 
@@ -9,7 +10,7 @@ import java.util.Locale;
  *
  * @author Sebastien Gerard
  */
-public class CheckStyleTesterBuilder {
+public final class CheckStyleTesterBuilder {
 
     /**
      * The system property to be used to locate the root directory containing the <tt>.java</tt> source
@@ -27,15 +28,16 @@ public class CheckStyleTesterBuilder {
     public static CheckStyleTesterBuilder forConfigFile(String configurationFile) {
         final URL resource = CheckStyleTesterBuilder.class.getResource(configurationFile);
 
-        if (resource == null) {
-            if (new File(configurationFile).exists()) {
-                return forConfigFile(new File(configurationFile));
-            } else {
-                throw new IllegalArgumentException("The configuration file [" + configurationFile +
-                    "] has not been found");
+        if (resource != null) {
+            File file;
+            try {
+                file = new File(resource.toURI());
+            } catch (URISyntaxException e) {
+                file = new File(resource.getPath());
             }
+            return forConfigFile(file);
         } else {
-            return forConfigFile(new File(resource.getFile()));
+            return forConfigFile(new File(configurationFile));
         }
     }
 
@@ -44,8 +46,13 @@ public class CheckStyleTesterBuilder {
      *
      * @param configurationFile the file containing the rules to be applied
      * @return a new builder instance
+     * @throws IllegalArgumentException if the given file does not exist
      */
     public static CheckStyleTesterBuilder forConfigFile(File configurationFile) {
+        if (!configurationFile.exists()) {
+            throw new IllegalArgumentException("The configuration file [" + configurationFile +
+                    "] has not been found");
+        }
         return new CheckStyleTesterBuilder(configurationFile);
     }
 
@@ -84,7 +91,7 @@ public class CheckStyleTesterBuilder {
 
         if (sourceLocation == null) {
             throw new IllegalStateException("The source location has not been set, " +
-                "please set the system property [" + SOURCE_LOCATION + "]");
+                    "please set the system property [" + SOURCE_LOCATION + "]");
         }
 
         return withSourceLocation(new File(sourceLocation));
