@@ -41,9 +41,9 @@ public class ImplementClausesCounterCheckTest extends AbstractCheckTest {
     @Test
     public void classWithTooManyImplement() {
         analysis.get(ClassWithTooManyImplement.class).assertOnlyThose(
-            violation(ImplementClausesCounterCheck.class).on(20, 40)
+            violation(ImplementClausesCounterCheck.class).on(8, 40)
                 .withLevel(SeverityLevel.WARNING)
-                .withMessage("There are too many implements (more than 10).")
+                .withMessage("There are too many implements (more than 2).")
         );
     }
 

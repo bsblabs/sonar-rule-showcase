@@ -29,9 +29,9 @@ public class ImplementClausesCounterCheckFrenchTest extends AbstractCheckTest {
     public void locale() {
         analysis.get(ClassWithTooManyImplement.class)
             .assertOnlyThose(
-                violation(ImplementClausesCounterCheck.class).on(20, 40)
+                violation(ImplementClausesCounterCheck.class).on(8, 40)
                     .withLevel(SeverityLevel.WARNING)
-                    .withMessage("Trop d'implements (plus de 10).")
+                    .withMessage("Trop d'implements (plus de 2).")
             );
     }
 

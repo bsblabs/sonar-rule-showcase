@@ -16,7 +16,7 @@ import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 public class ImplementClausesCounterCheck extends AbstractSingleCheck {
 
     public static final String MESSAGE = "implements.count";
-    public static final int MAX_IMPLEMENTS = 10;
+    public static final int MAX_IMPLEMENTS = 2;
 
     private ImplementClausesCounterState state;
 
