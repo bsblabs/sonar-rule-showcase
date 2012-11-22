@@ -6,7 +6,7 @@
         <configKey>Checker/TreeWalker/com.bsb.sonar.sample.rule.implement.ImplementClausesCounterCheck</configKey>
         <category name="Usability"/>
         <description>
-            Checks that the number of interfaces directly implemented by a class does not exceed 10.
+            Checks that the number of interfaces directly implemented by a class does not exceed 2.
         </description>
         <priority>MAJOR</priority>
     </rule>

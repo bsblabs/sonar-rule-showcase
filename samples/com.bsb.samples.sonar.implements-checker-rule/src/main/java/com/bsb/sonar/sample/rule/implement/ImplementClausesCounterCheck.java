@@ -8,7 +8,7 @@ import com.puppycrawl.tools.checkstyle.api.SeverityLevel;
 import com.puppycrawl.tools.checkstyle.api.TokenTypes;
 
 /**
- * A single check that checks that a class does not implement more than 10 interfaces.
+ * A single check that checks that a class does not implement more than 2 interfaces.
  * Inner classes are not scanned.
  *
  * @author Sebastien Gerard
