@@ -87,14 +87,14 @@ public final class CheckStyleTesterBuilder {
      * @see #withSourceLocation(java.io.File)
      */
     public CheckStyleTesterBuilder withSourceLocationAsProperty() {
-        final String sourceLocation = System.getProperty(SOURCE_LOCATION);
+        final String location = System.getProperty(SOURCE_LOCATION);
 
-        if (sourceLocation == null) {
+        if (location == null) {
             throw new IllegalStateException("The source location has not been set, " +
                     "please set the system property [" + SOURCE_LOCATION + "]");
         }
 
-        return withSourceLocation(new File(sourceLocation));
+        return withSourceLocation(new File(location));
     }
 
     /**
