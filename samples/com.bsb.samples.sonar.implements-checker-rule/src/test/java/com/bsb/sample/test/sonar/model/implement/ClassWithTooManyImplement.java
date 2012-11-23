@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * @author Sebastien Gerard
  */
-public class ClassWithTooManyImplement implements Comparable<Object>, Cloneable, Serializable {
+public class ClassWithTooManyImplement implements Comparable<ClassWithTooManyImplement>, Cloneable, Serializable {
 
     private final int number;
 
@@ -14,12 +14,8 @@ public class ClassWithTooManyImplement implements Comparable<Object>, Cloneable,
     }
 
     @Override
-    public int compareTo(Object o) {
-        if (o == null) {
-            throw new NullPointerException();
-        }
-
-        return Integer.compare(number, ((ClassWithTooManyImplement) o).number);
+    public int compareTo(ClassWithTooManyImplement o) {
+        return Integer.compare(number, o.number);
     }
 
     @Override

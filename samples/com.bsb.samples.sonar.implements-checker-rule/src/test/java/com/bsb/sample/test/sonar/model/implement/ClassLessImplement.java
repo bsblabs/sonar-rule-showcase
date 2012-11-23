@@ -3,7 +3,7 @@ package com.bsb.sample.test.sonar.model.implement;
 /**
  * @author Sebastien Gerard
  */
-public class ClassLessImplement implements Comparable<Object>, Cloneable {
+public class ClassLessImplement implements Comparable<ClassLessImplement>, Cloneable {
 
     private final int number;
 
@@ -12,11 +12,7 @@ public class ClassLessImplement implements Comparable<Object>, Cloneable {
     }
 
     @Override
-    public int compareTo(Object o) {
-        if (o == null) {
-            throw new NullPointerException();
-        }
-
-        return Integer.compare(number, ((ClassLessImplement) o).number);
+    public int compareTo(ClassLessImplement o) {
+        return Integer.compare(number, o.number);
     }
 }

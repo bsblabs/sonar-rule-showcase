@@ -18,8 +18,6 @@ import static com.bsb.common.integration.checkstyle.tester.ViolationMatcher.*;
  */
 public class ImplementClausesCounterCheckTest extends AbstractCheckTest {
 
-    public static final String CHECKSTYLE_CONFIG = "/checkstyle.xml";
-
     private static CheckStyleTester analysis;
 
 

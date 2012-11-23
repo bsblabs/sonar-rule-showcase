@@ -8,8 +8,10 @@ import com.bsb.common.integration.checkstyle.tester.CheckStyleTesterBuilder;
  */
 public abstract class AbstractCheckTest {
 
+    public static final String CHECKSTYLE_CONFIG = "/checkstyle.xml";
+
     protected static CheckStyleTesterBuilder getTester() {
-        return CheckStyleTesterBuilder.forConfigFile(ImplementClausesCounterCheckTest.CHECKSTYLE_CONFIG)
+        return CheckStyleTesterBuilder.forConfigFile(CHECKSTYLE_CONFIG)
             .withSourceLocationAsProperty();
     }
 
