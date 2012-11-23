@@ -5,7 +5,7 @@ package com.bsb.sample.test.sonar.model.implement;
  */
 public class ClassLessImplement implements Comparable<ClassLessImplement>, Cloneable {
 
-    private final int number;
+    private final Integer number;
 
     public ClassLessImplement(int number) {
         this.number = number;
@@ -13,6 +13,7 @@ public class ClassLessImplement implements Comparable<ClassLessImplement>, Clone
 
     @Override
     public int compareTo(ClassLessImplement o) {
-        return Integer.compare(number, o.number);
+        return number.compareTo(o.number);
     }
+
 }

@@ -7,20 +7,16 @@ import java.io.Serializable;
  */
 public class ClassWithInner {
 
-    public static class InnerClass implements Comparable<Object>, Cloneable, Serializable {
-        private final int number;
+    public static class InnerClass implements Comparable<InnerClass>, Cloneable, Serializable {
+        private final Integer number;
 
         public InnerClass(int number) {
             this.number = number;
         }
 
         @Override
-        public int compareTo(Object o) {
-            if (o == null) {
-                throw new NullPointerException();
-            }
-
-            return Integer.compare(number, ((InnerClass) o).number);
+        public int compareTo(InnerClass o) {
+            return number.compareTo(o.number);
         }
 
         @Override
